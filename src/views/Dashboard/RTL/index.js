@@ -37,25 +37,25 @@ export default function Dashboard() {
     <Flex flexDirection='column' pt={{ base: "120px", md: "75px" }}>
       <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing='24px'>
         <MiniStatistics
-          title={"إجمالي المبيعات"}
+          title={"Total Sales"}
           amount={"$53,000"}
           percentage={55}
           icon={<WalletIcon h={"24px"} w={"24px"} color={iconBoxInside} />}
         />
         <MiniStatistics
-          title={"عملاء جدد"}
+          title={"New customers"}
           amount={"2,300"}
           percentage={5}
           icon={<GlobeIcon h={"24px"} w={"24px"} color={iconBoxInside} />}
         />
         <MiniStatistics
-          title={"مستخدمو اليوم"}
+          title={"Today's users"}
           amount={"+3,020"}
           percentage={-14}
           icon={<DocumentIcon h={"24px"} w={"24px"} color={iconBoxInside} />}
         />
         <MiniStatistics
-          title={"أموال اليوم"}
+          title={"Daily Sales"}
           amount={"$173,000"}
           percentage={8}
           icon={<CartIcon h={"24px"} w={"24px"} color={iconBoxInside} />}
@@ -67,10 +67,10 @@ export default function Dashboard() {
         my='26px'
         gap='24px'>
         <BuiltByDevelopers
-          title={"بناها المطورون"}
-          name={"لوحة معلومات Purity UI"}
+          title={"Built by developers"}
+          name={"Purity UI Dashboard"}
           description={
-            "من الألوان والبطاقات والطباعة إلى العناصر المعقدة ، ستجد الوثائق الكاملة."
+            "From colors, cards and typography to complex items, you'll find the complete documentation."
           }
           image={
             <Image
@@ -82,9 +82,9 @@ export default function Dashboard() {
         />
         <WorkWithTheRockets
           backgroundImage={peopleImage}
-          title={"العمل مع الصواريخ"}
+          title={"Working with rockets"}
           description={
-            "تكوين الثروة هو لعبة ثورية حديثة ذات محصلة إيجابية. الأمر كله يتعلق بمن يغتنم الفرصة أولاً."
+            "Wealth creation is a modern revolutionary game with a positive outcome. It's all about who takes the opportunity first."
           }
         />
       </Grid>
@@ -94,12 +94,12 @@ export default function Dashboard() {
         gap='24px'
         mb={{ lg: "26px" }}>
         <ActiveUsers
-          title={"المستخدمين النشطين"}
+          title={"Active users"}
           percentage={23}
           chart={<BarChart />}
         />
         <SalesOverview
-          title={"نظرة عامة على المبيعات"}
+          title={"Sales Overview"}
           percentage={5}
           chart={<LineChart />}
         />
@@ -109,13 +109,13 @@ export default function Dashboard() {
         templateRows={{ sm: "1fr auto", md: "1fr", lg: "1fr" }}
         gap='24px'>
         <Projects
-          title={"المشاريع"}
+          title={"Projects"}
           amount={30}
           captions={["Companies", "Members", "Budget", "Completion"]}
           data={rtlDashboardTableData}
         />
         <OrdersOverview
-          title={"نظرة عامة على الطلبات"}
+          title={"Orders Overview"}
           amount={30}
           data={rtlTimelineData}
         />

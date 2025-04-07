@@ -1,5 +1,6 @@
 // Chakra Icons
 import { BellIcon, SearchIcon } from "@chakra-ui/icons";
+import Modal from 'react-modal';
 // Chakra Imports
 import {
   Button,
@@ -26,12 +27,15 @@ import { ItemContent } from "components/Menu/ItemContent";
 import SidebarResponsive from "components/Sidebar/SidebarResponsive";
 import PropTypes from "prop-types";
 import React from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import routes from "routes.js";
+import LogoutModal from "components/LogoutModal/Logout";
 
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
-
+  const [username, setUserName] = useState(sessionStorage.getItem('userName') || "")
+  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   // Chakra Color Mode
   let mainTeal = useColorModeValue("teal.300", "teal.300");
   let inputBg = useColorModeValue("white", "gray.800");
@@ -93,13 +97,18 @@ export default function HeaderLinks(props) {
           borderRadius="inherit"
         />
       </InputGroup>
-      <NavLink to="/auth/signin">
+      {/* <NavLink to="/auth/signin"> */}
+      <>
         <Button
           ms="0px"
           px="0px"
           me={{ sm: "2px", md: "16px" }}
           color={navbarIcon}
           variant="transparent-with-icon"
+          onClick={() => {
+            console.log('Clicked on User');
+            setLogoutModalVisible(true);
+          }}
           rightIcon={
             document.documentElement.dir ? (
               ""
@@ -115,9 +124,17 @@ export default function HeaderLinks(props) {
             )
           }
         >
-          <Text display={{ sm: "none", md: "flex" }}>Sign In</Text>
+          <Text display={{ sm: "none", md: "flex" }}>
+            {username ? username : "Sign In"}
+          </Text>
         </Button>
-      </NavLink>
+
+        <LogoutModal 
+          isOpen={logoutModalVisible} 
+          onRequestClose={() => setLogoutModalVisible(false)}
+        />
+      </>
+      {/* </NavLink> */}
       <SidebarResponsive
         logoText={props.logoText}
         secondary={props.secondary}
