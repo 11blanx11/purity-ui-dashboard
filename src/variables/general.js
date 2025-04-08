@@ -165,7 +165,7 @@ export const rtlTimelineData = [
   },
   {
     logo: FaHtml5,
-    title:"New Order #4219423",
+    title: "New Order #4219423",
     date: "21 DEC 11:21 PM",
     color: "orange",
   },
@@ -189,7 +189,7 @@ export const rtlTimelineData = [
   },
   {
     logo: AdobexdLogo,
-    title:"New Order #9851258",
+    title: "New Order #9851258",
     date: "18 DEC 4:41 PM",
   },
 ];
@@ -248,6 +248,75 @@ export const tablesTableData = [
     domain: "UI/UX Design",
     status: "Offline",
     date: "04/09/20",
+  },
+];
+
+export const ProductsTableData = [
+  {
+    _id: "67f4e6da174f96fa6edd4575",
+    Handle: "ocean-blue-shirt",
+    Title: "Ocean Blue Shirt",
+    Vendor: "partners-demo",
+    Tags: "men",
+    "Variant Inventory Qty": 1,
+    "Variant Price": 50,
+    "Image Src":
+      "https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg",
+  },
+  {
+    _id: "67f4e6da174f96fa6edd4575",
+    Handle: "ocean-blue-shirt",
+    Title: "Ocean Blue Shirt",
+    Vendor: "partners-demo",
+    Tags: "men",
+    "Variant Inventory Qty": 1,
+    "Variant Price": 50,
+    "Image Src":
+      "https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg",
+  },
+  {
+    _id: "67f4e6da174f96fa6edd4575",
+    Handle: "ocean-blue-shirt",
+    Title: "Ocean Blue Shirt",
+    Vendor: "partners-demo",
+    Tags: "men",
+    "Variant Inventory Qty": 0,
+    "Variant Price": 50,
+    "Image Src":
+      "https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg",
+  },
+  {
+    _id: "67f4e6da174f96fa6edd4575",
+    Handle: "ocean-blue-shirt",
+    Title: "Ocean Blue Shirt",
+    Vendor: "partners-demo",
+    Tags: "men",
+    "Variant Inventory Qty": 0,
+    "Variant Price": 50,
+    "Image Src":
+      "https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg",
+  },
+  {
+    _id: "67f4e6da174f96fa6edd4575",
+    Handle: "ocean-blue-shirt",
+    Title: "Ocean Blue Shirt",
+    Vendor: "partners-demo",
+    Tags: "men",
+    "Variant Inventory Qty": 1,
+    "Variant Price": 50,
+    "Image Src":
+      "https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg",
+  },
+  {
+    _id: "67f4e6da174f96fa6edd4575",
+    Handle: "ocean-blue-shirt",
+    Title: "Ocean Blue Shirt",
+    Vendor: "partners-demo",
+    Tags: "men",
+    "Variant Inventory Qty": 1,
+    "Variant Price": 50,
+    "Image Src":
+      "https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg",
   },
 ];
 
