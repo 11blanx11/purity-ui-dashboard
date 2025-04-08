@@ -41,7 +41,7 @@ function AddProductModal({ isOpen, onClose, onAddProduct }) {
 
   const handleSubmit = () => {
     console.log("Payload to send: ", newProduct);
-    // onAddProduct(newProduct);
+    onAddProduct(newProduct);
     onClose();
     // Reset form
     setNewProduct({

@@ -80,7 +80,8 @@ function SignIn() {
         }
       });
       if (loginresponse.status) {
-        const authToken = loginresponse?.headers?.getAuthorization();
+        const authToken = loginresponse?.headers?.getAuthorization() || loginresponse?.headers['Authorization'];
+        console.log('Login Response: ', loginresponse?.headers?.getAuthorization())
         const { userId, userName, email } = loginresponse?.data || {};
         sessionStorage.setItem('authToken', authToken)
         sessionStorage.setItem('userId',userId)

@@ -1,5 +1,5 @@
 // Chakra imports
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState, useCallback, useEffect } from "react";
 import {
   Table,
   Thead,
@@ -28,13 +28,10 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import AddProductModal from "components/AddProductModal/AddProductModal.js";
+import EditProductModal from "components/EditProductModal/EditProductModal";
 import ProductsTableData from "variables/general.js";
 
 console.log("Loading Admin Tables...");
-
-const handleEdit = ({}) => {
-  console.log("Edit Triggered...");
-};
 
 const TitleCell = ({ title, handle, image }) => {
   const textColor = useColorModeValue("gray.700", "white");
@@ -71,7 +68,7 @@ const InventoryCell = ({ inventory }) => {
   const textColor = useColorModeValue("gray.700", "white");
   const outOfStockBg = useColorModeValue("gray.400", "#425270");
   // const inStockBg = useColorModeValue("green.400", "#1a202c");
-  const colorStatus = useColorModeValue("white", "gray.400");
+  const colorStatus = useColorModeValue("gray.900", "gray.400");
   const inStock = inventory > 0 ? true : false;
   return (
     <Flex direction="column">
@@ -100,17 +97,31 @@ const InventoryCell = ({ inventory }) => {
   );
 };
 
-const ActionCell = ({ onEdit }) => {
+const ActionCell = ({ row, onEdit }) => {
+  const handleEdit = () => {
+    onEdit(row);
+  };
+
   return (
-    <Button p="0px" bg="transparent" variant="no-hover" onClick={handleEdit}>
-      <Text fontSize="md" color="gray.400" fontWeight="bold" cursor="pointer">
+    <Button 
+      p="0px" 
+      bg="transparent" 
+      variant="no-hover" 
+      onClick={handleEdit}
+    >
+      <Text 
+        fontSize="md" 
+        color="gray.400" 
+        fontWeight="bold" 
+        cursor="pointer"
+      >
         Edit
       </Text>
     </Button>
   );
 };
 
-const initialData = {
+const initialData = [{
   Title: "",
   Handle: "",
   "Image Src": "",
@@ -118,11 +129,17 @@ const initialData = {
   Tags: "",
   "Variant Inventory Qty": 0,
   "Variant Price": 0,
-};
+}];
 
 const Products = ({ title, captions, data }) => {
   const [productData, setProductData] = useState(initialData);
   const [sorting, setSorting] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(initialData);
+  
+  useEffect(()=>{
+    setProductData(data)
+  },[data])
+  
   const {
     isOpen: isAddModalOpen,
     onOpen: onAddModalOpen,
@@ -133,7 +150,13 @@ const Products = ({ title, captions, data }) => {
     isOpen: isEditModalOpen,
     onOpen: onEditModalOpen,
     onClose: onEditModalClose,
-  } = useDisclosure();
+    } = useDisclosure();
+
+  const handleEditProduct = (productData) => {
+    console.log("Editing product:", productData);
+    setSelectedProduct(productData); // Store the selected product data
+    onEditModalOpen(); // Open the edit modal
+  };
 
   const textColor = useColorModeValue("gray.700", "white");
   const buttonbg = useColorModeValue("blue.400", "#1a202c");
@@ -151,8 +174,10 @@ const Products = ({ title, captions, data }) => {
           />
         ),
       },
+      { accessorKey: "SKU", header: "SKU", enableSorting:true},
       { accessorKey: "Vendor", header: "Vendor", enableSorting: true },
-      { accessorKey: "Tags", header: "Category", enableSorting: false },
+      { accessorKey: "Tags", header: "Category", enableSorting: true },
+
       {
         accessorKey: "Variant Inventory Qty",
         header: "Inventory",
@@ -169,24 +194,35 @@ const Products = ({ title, captions, data }) => {
         id: "actions",
         header: "Actions",
         enableSorting: false,
-        cell: () => <ActionCell onEdit={() => {}} />,
+        cell: ({ row }) => <ActionCell row={row.original} onEdit={handleEditProduct} />,
       },
     ],
     []
   );
 
   const addProduct = useCallback((newProduct) => {
+    console.log('Entered Add Product Callback function')
     setProductData((prevData) => [...prevData, newProduct]);
   }, []);
 
+  const editProductinTable = useCallback((selectedProduct) => {
+    console.log('Entered Callback Function with: ',selectedProduct )
+    setProductData((prevData) => 
+      prevData.map((product) => 
+        product._id === selectedProduct._id ? selectedProduct : product
+      )
+    );
+  }, []);
+
   const table = useReactTable({
-    data,
+    data:productData,
     columns,
     state: { sorting },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
   });
+
   return (
     <>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }}>
@@ -284,6 +320,13 @@ const Products = ({ title, captions, data }) => {
         isOpen={isAddModalOpen}
         onClose={onAddModalClose}
         onAddProduct={addProduct}
+      />
+
+      <EditProductModal
+        isOpen={isEditModalOpen}
+        onClose={onEditModalClose}
+        selectedProduct = {selectedProduct}
+        onEditProduct={editProductinTable}
       />
     </>
   );

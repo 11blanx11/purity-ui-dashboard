@@ -258,6 +258,7 @@ export const ProductsTableData = [
     Title: "Ocean Blue Shirt",
     Vendor: "partners-demo",
     Tags: "men",
+    SKU:"PROD-001",
     "Variant Inventory Qty": 1,
     "Variant Price": 50,
     "Image Src":
@@ -269,17 +270,19 @@ export const ProductsTableData = [
     Title: "Ocean Blue Shirt",
     Vendor: "partners-demo",
     Tags: "men",
+    SKU:"PROD-002",
     "Variant Inventory Qty": 1,
     "Variant Price": 50,
     "Image Src":
       "https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg",
   },
   {
-    _id: "67f4e6da174f96fa6edd4575",
+    _id: "67f4e6da174f96fa6edd475",
     Handle: "ocean-blue-shirt",
     Title: "Ocean Blue Shirt",
     Vendor: "partners-demo",
-    Tags: "men",
+    Tags: "women",
+    SKU:"PROD-003",
     "Variant Inventory Qty": 0,
     "Variant Price": 50,
     "Image Src":
