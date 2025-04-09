@@ -24,7 +24,7 @@ function AddProductModal({ isOpen, onClose, onAddProduct }) {
     "Image Src": "",
     Vendor: "",
     Tags: "",
-    "Variant Inventory Qty": 0,
+    "Shop location": 0,
     "Variant Price": 0,
   });
 
@@ -33,7 +33,7 @@ function AddProductModal({ isOpen, onClose, onAddProduct }) {
     setNewProduct((prev) => ({
       ...prev,
       [name]:
-        name === "Variant Inventory Qty" || name === "Variant Price"
+        name === "Shop location" || name === "Variant Price"
           ? parseFloat(value)
           : value,
     }));
@@ -50,7 +50,7 @@ function AddProductModal({ isOpen, onClose, onAddProduct }) {
       "Image Src": "",
       Vendor: "",
       Tags: "",
-      "Variant Inventory Qty": 0,
+      "Shop location": 0,
       "Variant Price": 0,
     });
     history.push("/admin/tables");
@@ -106,9 +106,9 @@ function AddProductModal({ isOpen, onClose, onAddProduct }) {
           <FormControl mb={3}>
             <FormLabel>Inventory Quantity</FormLabel>
             <Input
-              name="Variant Inventory Qty"
+              name="Shop location"
               type="number"
-              value={newProduct["Variant Inventory Qty"]}
+              value={newProduct["Shop location"]}
               onChange={handleChange}
             />
           </FormControl>

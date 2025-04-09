@@ -28,8 +28,8 @@ ReactDOM.render(
   <HashRouter>
     <Switch>
       <Route path={`/auth`} component={AuthLayout} />
-      <ProtectedRoute path={`/admin`} component={AdminLayout} />
-      <ProtectedRoute path={`/rtl`} component={RTLLayout} />
+      <Route path={`/admin`} component={AdminLayout} />
+      <Route path={`/rtl`} component={RTLLayout} />
       <Redirect from={`/`} to="/auth/signin" />
     </Switch>
   </HashRouter>,

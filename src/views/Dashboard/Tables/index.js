@@ -16,29 +16,30 @@ function Tables() {
   const [isProductsLoading, setIsProductsLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = sessionStorage.getItem("authToken") || "";
-  console.log('Session TOken: ', token)
+  console.log("Session TOken: ", token);
 
   useEffect(() => {
-    console.log(`Fetching Route: ${process.env.REACT_APP_BACKEND_URL}/api/products`)
+    console.log(
+      `Fetching Route: ${process.env.REACT_APP_BACKEND_URL}/api/products`
+    );
     const fetchProducts = async () => {
       try {
         setIsProductsLoading(true);
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/api/products`,
-          { 
-            headers: { 
-              Authorization: token 
-            } 
+          `${process.env.REACT_APP_BACKEND_URL}/api/products/`,
+          {
+            headers: {
+              Authorization: token,
+              "Content-Type": "application/json",
+            },
           }
         );
-          console.log('Fetch Products Response: ', response)
-        if (!response.ok) {
+        console.log("Fetch Products Response: ", response);
+        if (!response.status) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        
-        const data = await response?.data;
-        
-        console.log('Response Data: ', response?.data)
+
+        const data = await response?.data?.data;
         setProductsData(data);
         setIsProductsLoading(false);
       } catch (err) {
@@ -63,7 +64,7 @@ function Tables() {
         captions={["Companies", "Budget", "Status", "Completion", ""]}
         data={dashboardTableData}
       /> */}
-    {/* {isProductsLoading ? (
+      {/* {isProductsLoading ? (
         <p>Loading products...</p>
       ) : error ? (
         <p>Error loading products: {error}</p>
@@ -77,7 +78,7 @@ function Tables() {
       <Products
         title={"Products Table"}
         captions={["Handle", "Vendor", "Tags", "Inventory", "Price", ""]}
-        data={ProductsTableData}
+        data={productsData}
       />
     </Flex>
   );

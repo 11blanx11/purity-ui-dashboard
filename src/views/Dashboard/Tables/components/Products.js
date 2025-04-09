@@ -103,43 +103,36 @@ const ActionCell = ({ row, onEdit }) => {
   };
 
   return (
-    <Button 
-      p="0px" 
-      bg="transparent" 
-      variant="no-hover" 
-      onClick={handleEdit}
-    >
-      <Text 
-        fontSize="md" 
-        color="gray.400" 
-        fontWeight="bold" 
-        cursor="pointer"
-      >
+    <Button p="0px" bg="transparent" variant="no-hover" onClick={handleEdit}>
+      <Text fontSize="md" color="gray.400" fontWeight="bold" cursor="pointer">
         Edit
       </Text>
     </Button>
   );
 };
 
-const initialData = [{
-  Title: "",
-  Handle: "",
-  "Image Src": "",
-  Vendor: "",
-  Tags: "",
-  "Variant Inventory Qty": 0,
-  "Variant Price": 0,
-}];
+const initialData = [
+  {
+    Title: "",
+    Handle: "",
+    "Image Src": "",
+    Vendor: "",
+    Tags: "",
+    "Shop location": 0,
+    "Variant Price": 0,
+  },
+];
 
 const Products = ({ title, captions, data }) => {
   const [productData, setProductData] = useState(initialData);
   const [sorting, setSorting] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(initialData);
-  
-  useEffect(()=>{
-    setProductData(data)
-  },[data])
-  
+
+  useEffect(() => {
+    console.log("Setting Product Data with: ", data);
+    setProductData(data);
+  }, [data]);
+
   const {
     isOpen: isAddModalOpen,
     onOpen: onAddModalOpen,
@@ -150,7 +143,7 @@ const Products = ({ title, captions, data }) => {
     isOpen: isEditModalOpen,
     onOpen: onEditModalOpen,
     onClose: onEditModalClose,
-    } = useDisclosure();
+  } = useDisclosure();
 
   const handleEditProduct = (productData) => {
     console.log("Editing product:", productData);
@@ -174,12 +167,12 @@ const Products = ({ title, captions, data }) => {
           />
         ),
       },
-      { accessorKey: "SKU", header: "SKU", enableSorting:true},
+      { accessorKey: "SKU", header: "SKU", enableSorting: true },
       { accessorKey: "Vendor", header: "Vendor", enableSorting: true },
       { accessorKey: "Tags", header: "Category", enableSorting: true },
 
       {
-        accessorKey: "Variant Inventory Qty",
+        accessorKey: "Shop location",
         header: "Inventory",
         enableSorting: true,
         cell: (info) => <InventoryCell inventory={info.getValue()} />,
@@ -194,28 +187,30 @@ const Products = ({ title, captions, data }) => {
         id: "actions",
         header: "Actions",
         enableSorting: false,
-        cell: ({ row }) => <ActionCell row={row.original} onEdit={handleEditProduct} />,
+        cell: ({ row }) => (
+          <ActionCell row={row.original} onEdit={handleEditProduct} />
+        ),
       },
     ],
     []
   );
 
   const addProduct = useCallback((newProduct) => {
-    console.log('Entered Add Product Callback function')
+    console.log("Entered Add Product Callback function");
     setProductData((prevData) => [...prevData, newProduct]);
   }, []);
 
   const editProductinTable = useCallback((selectedProduct) => {
-    console.log('Entered Callback Function with: ',selectedProduct )
-    setProductData((prevData) => 
-      prevData.map((product) => 
+    console.log("Entered Callback Function with: ", selectedProduct);
+    setProductData((prevData) =>
+      prevData.map((product) =>
         product._id === selectedProduct._id ? selectedProduct : product
       )
     );
   }, []);
 
   const table = useReactTable({
-    data:productData,
+    data: productData,
     columns,
     state: { sorting },
     onSortingChange: setSorting,
@@ -291,9 +286,7 @@ const Products = ({ title, captions, data }) => {
                 <Tr
                   key={row.id}
                   filter={
-                    row.original["Variant Inventory Qty"] > 0
-                      ? "none"
-                      : "opacity(0.5)"
+                    row.original["Shop location"] > 0 ? "none" : "opacity(0.5)"
                   }
                   _hover={{
                     filter: "none",
@@ -325,7 +318,7 @@ const Products = ({ title, captions, data }) => {
       <EditProductModal
         isOpen={isEditModalOpen}
         onClose={onEditModalClose}
-        selectedProduct = {selectedProduct}
+        selectedProduct={selectedProduct}
         onEditProduct={editProductinTable}
       />
     </>

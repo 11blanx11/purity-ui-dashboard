@@ -258,8 +258,8 @@ export const ProductsTableData = [
     Title: "Ocean Blue Shirt",
     Vendor: "partners-demo",
     Tags: "men",
-    SKU:"PROD-001",
-    "Variant Inventory Qty": 1,
+    SKU: "PROD-001",
+    "Shop location": 1,
     "Variant Price": 50,
     "Image Src":
       "https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg",
@@ -270,8 +270,8 @@ export const ProductsTableData = [
     Title: "Ocean Blue Shirt",
     Vendor: "partners-demo",
     Tags: "men",
-    SKU:"PROD-002",
-    "Variant Inventory Qty": 1,
+    SKU: "PROD-002",
+    "Shop location": 1,
     "Variant Price": 50,
     "Image Src":
       "https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg",
@@ -282,8 +282,8 @@ export const ProductsTableData = [
     Title: "Ocean Blue Shirt",
     Vendor: "partners-demo",
     Tags: "women",
-    SKU:"PROD-003",
-    "Variant Inventory Qty": 0,
+    SKU: "PROD-003",
+    "Shop location": 0,
     "Variant Price": 50,
     "Image Src":
       "https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg",
@@ -294,7 +294,7 @@ export const ProductsTableData = [
     Title: "Ocean Blue Shirt",
     Vendor: "partners-demo",
     Tags: "men",
-    "Variant Inventory Qty": 0,
+    "Shop location": 0,
     "Variant Price": 50,
     "Image Src":
       "https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg",
@@ -305,7 +305,7 @@ export const ProductsTableData = [
     Title: "Ocean Blue Shirt",
     Vendor: "partners-demo",
     Tags: "men",
-    "Variant Inventory Qty": 1,
+    "Shop location": 1,
     "Variant Price": 50,
     "Image Src":
       "https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg",
@@ -316,7 +316,7 @@ export const ProductsTableData = [
     Title: "Ocean Blue Shirt",
     Vendor: "partners-demo",
     Tags: "men",
-    "Variant Inventory Qty": 1,
+    "Shop location": 1,
     "Variant Price": 50,
     "Image Src":
       "https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg",
