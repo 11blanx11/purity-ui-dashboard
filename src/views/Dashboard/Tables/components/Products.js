@@ -29,7 +29,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import AddProductModal from "components/AddProductModal/AddProductModal.js";
 import EditProductModal from "components/EditProductModal/EditProductModal";
-import ProductsTableData from "variables/general.js";
+import DeleteProductModal from "components/DeleteProductModal/DeleteProductModal";
 
 console.log("Loading Admin Tables...");
 
@@ -97,17 +97,35 @@ const InventoryCell = ({ inventory }) => {
   );
 };
 
-const ActionCell = ({ row, onEdit }) => {
+const ActionCell = ({ row, onEdit, onDelete }) => {
   const handleEdit = () => {
     onEdit(row);
   };
 
+  const handleDelete = () => {
+    onDelete(row);
+  }
+
   return (
-    <Button p="0px" bg="transparent" variant="no-hover" onClick={handleEdit}>
-      <Text fontSize="md" color="gray.400" fontWeight="bold" cursor="pointer">
+    <Flex gap={2}>
+      <Button 
+        size="sm" 
+        colorScheme="gray" 
+        borderRadius="8px"
+        onClick={handleEdit}
+      >
         Edit
-      </Text>
-    </Button>
+      </Button>
+      <Button 
+        size="sm" 
+        bg = "red.300"
+        color="white"
+        borderRadius="8px"
+        onClick={handleDelete}  
+      >
+        Delete
+      </Button>
+    </Flex>
   );
 };
 
@@ -145,10 +163,22 @@ const Products = ({ title, captions, data }) => {
     onClose: onEditModalClose,
   } = useDisclosure();
 
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onClose: onDeleteModalClose,
+  } = useDisclosure();
+
   const handleEditProduct = (productData) => {
     console.log("Editing product:", productData);
     setSelectedProduct(productData); // Store the selected product data
     onEditModalOpen(); // Open the edit modal
+  };
+
+  const handleDeleteProduct = (productData) => {
+    console.log("Deleting product:", productData);
+    setSelectedProduct(productData); // Store the selected product data
+    onDeleteModalOpen(); // Open the edit modal
   };
 
   const textColor = useColorModeValue("gray.700", "white");
@@ -188,7 +218,7 @@ const Products = ({ title, captions, data }) => {
         header: "Actions",
         enableSorting: false,
         cell: ({ row }) => (
-          <ActionCell row={row.original} onEdit={handleEditProduct} />
+          <ActionCell row={row.original} onEdit={handleEditProduct} onDelete={handleDeleteProduct} />
         ),
       },
     ],
@@ -205,6 +235,15 @@ const Products = ({ title, captions, data }) => {
     setProductData((prevData) =>
       prevData.map((product) =>
         product._id === selectedProduct._id ? selectedProduct : product
+      )
+    );
+  }, []);
+
+  const deleteProductinTable = useCallback((selectedProduct) => {
+    console.log("Entered Callback Function with: ", selectedProduct);
+    setProductData((prevData) =>
+      prevData.filter((product) =>
+        product._id !== selectedProduct._id 
       )
     );
   }, []);
@@ -320,6 +359,13 @@ const Products = ({ title, captions, data }) => {
         onClose={onEditModalClose}
         selectedProduct={selectedProduct}
         onEditProduct={editProductinTable}
+      />
+
+      <DeleteProductModal
+        isOpen={isDeleteModalOpen}
+        onClose={onDeleteModalClose}
+        selectedProduct={selectedProduct}
+        onDelete={deleteProductinTable}
       />
     </>
   );
