@@ -48,9 +48,11 @@ function AddProductModal({ isOpen, onClose, onAddProduct }) {
     return (
       newProduct.Title?.trim() !== '' && 
       newProduct.Handle?.trim() !== '' && 
+      newProduct["Variant SKU"]?.trim() !== '' && 
       newProduct["Image Src"]?.trim() !== '' && 
       newProduct.Vendor?.trim() !== '' && 
       newProduct.Tags?.trim() !== '' && 
+      newProduct["Shop location"] >= 0 &&
       newProduct["Variant Price"] > 0
     );
   };

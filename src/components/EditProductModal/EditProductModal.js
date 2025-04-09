@@ -15,13 +15,12 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useSharedStyle } from "antd/es/input/style";
+import { message } from "antd";
 
 function EditProductModal({ isOpen, onClose, selectedProduct, onEditProduct }) {
   const [editedProduct, setEditedProduct] = useState(selectedProduct);
   console.log("Edit Product Modal Called");
   console.log("Selectd Product is: ", selectedProduct);
-  const history = useHistory();
-
   // using to change whenever selectedProduct changes
   useEffect(() => {
     setEditedProduct(selectedProduct);
@@ -40,11 +39,37 @@ function EditProductModal({ isOpen, onClose, selectedProduct, onEditProduct }) {
     }));
   };
 
-  const handleSubmit = () => {
+  const isFormComplete = () => {
+    return (
+      editedProduct.Title?.trim() !== '' && 
+      editedProduct.Handle?.trim() !== '' && 
+      editedProduct["Image Src"]?.trim() !== '' && 
+      editedProduct.Vendor?.trim() !== '' && 
+      editedProduct.Tags?.trim() !== '' && 
+      editedProduct["Shop location"] >= 0 &&
+      editedProduct["Variant Price"] > 0
+    );
+  };
+
+  const handleSubmit = async () => {
     console.log("Payload to send: ", editedProduct);
-    onEditProduct(editedProduct);
-    onClose();
-    // history.push("/admin/tables");
+    const authToken = sessionStorage.getItem('authToken') || "";
+    try {
+      console.log(`Edit User url ${process.env.REACT_APP_BACKEND_URL}/api/products/${editedProduct["_id"]}`)
+      const editResponse = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/products/${editedProduct["_id"]}`, 
+        {editedProduct},
+        {
+        headers: {
+          'Authorization': authToken,
+          'Content-Type': 'application/json'
+        }
+      });
+      onEditProduct(editedProduct);
+      onClose();
+    } catch (error) {
+      console.log('Failed due to', error)
+      message.error(error?.response?.data?.error)
+    }
   };
 
   return (
@@ -67,6 +92,17 @@ function EditProductModal({ isOpen, onClose, selectedProduct, onEditProduct }) {
             <Input
               name="Handle"
               value={editedProduct.Handle}
+              onChange={handleChange}
+            />
+          </FormControl>
+          <FormControl 
+            mb={3}
+            isDisabled={true}
+          >
+            <FormLabel>Product SKU</FormLabel>
+            <Input
+              name="Variant SKU"
+              value={editedProduct["Variant SKU"]}
               onChange={handleChange}
             />
           </FormControl>
@@ -115,7 +151,12 @@ function EditProductModal({ isOpen, onClose, selectedProduct, onEditProduct }) {
           </FormControl>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+          <Button 
+            colorScheme="blue" 
+            mr={3} 
+            onClick={handleSubmit}
+            isDisabled={!isFormComplete()}
+            >
             Edit Product
           </Button>
           <Button variant="ghost" onClick={onClose}>

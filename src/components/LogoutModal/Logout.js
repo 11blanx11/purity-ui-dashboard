@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
+import { useColorModeValue } from "@chakra-ui/system";
 
 Modal.setAppElement("#root");
 
@@ -9,6 +10,8 @@ function LogoutModal({ isOpen, onRequestClose }) {
   const userName = sessionStorage.getItem("userName") || "";
   const userEmail = sessionStorage.getItem("email") || "";
   const [LogoutStatus, setLogoutStatus] = useState(false);
+  const textColor = useColorModeValue("gray.700", "black")
+  const emailColor = useColorModeValue("gray.400", "gray.700")
 
   const handleLogout = async () => {
     console.log("Logging out.....");
@@ -54,21 +57,29 @@ function LogoutModal({ isOpen, onRequestClose }) {
       }}
     >
       <div style={{ textAlign: "center" }}>
-        <img
-          src="https://gravatar.com/avatar/27205e5c51cb03f862138b22bcb5dc20f94a342e744ff6df1b8dc8af3c865109?f=y"
-          alt="Profile"
+        <div
           style={{
             width: "80px",
             height: "80px",
             borderRadius: "50%",
             margin: "0 auto 16px",
+            backgroundColor: `hsl(${Math.random() * 360}, 70%, 60%)`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "32px",
+            fontWeight: "bold",
+            color: "white"
           }}
-        />
+          >
+          {userName ? userName.charAt(0).toUpperCase() : "U"}
+        </div>
         <h2
           style={{
             fontSize: "20px",
             fontWeight: "600",
             margin: "0 0 8px",
+            color:"black"
           }}
         >
           User Profile
@@ -78,6 +89,7 @@ function LogoutModal({ isOpen, onRequestClose }) {
             fontSize: "16px",
             fontWeight: "500",
             margin: "0 0 4px",
+            color:"black"
           }}
         >
           {userName}
@@ -85,7 +97,7 @@ function LogoutModal({ isOpen, onRequestClose }) {
         <p
           style={{
             fontSize: "14px",
-            color: "#666",
+            color:"gray",
             margin: "0 0 24px",
           }}
         >
@@ -104,7 +116,7 @@ function LogoutModal({ isOpen, onRequestClose }) {
             style={{
               flex: 1,
               padding: "10px",
-              background: "#f0f0f0",
+              background: "#cccaca",
               border: "none",
               borderRadius: "6px",
               cursor: "pointer",
