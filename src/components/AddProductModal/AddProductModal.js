@@ -14,16 +14,19 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
+import { message } from "antd";
 
 function AddProductModal({ isOpen, onClose, onAddProduct }) {
   console.log("Add Product Modal Called");
   const history = useHistory();
   const [newProduct, setNewProduct] = useState({
+    _id:"",
     Title: "",
     Handle: "",
     "Image Src": "",
     Vendor: "",
     Tags: "",
+    "Variant SKU":"",
     "Shop location": 0,
     "Variant Price": 0,
   });
@@ -33,27 +36,66 @@ function AddProductModal({ isOpen, onClose, onAddProduct }) {
     setNewProduct((prev) => ({
       ...prev,
       [name]:
-        name === "Shop location" || name === "Variant Price"
-          ? parseFloat(value)
-          : value,
+        name === "Shop location" 
+          ? parseInt(value) || 0
+          : name === "Variant Price"
+            ? parseFloat(value)
+            : value
     }));
   };
 
-  const handleSubmit = () => {
+  const isFormComplete = () => {
+    return (
+      newProduct.Title?.trim() !== '' && 
+      newProduct.Handle?.trim() !== '' && 
+      newProduct["Image Src"]?.trim() !== '' && 
+      newProduct.Vendor?.trim() !== '' && 
+      newProduct.Tags?.trim() !== '' && 
+      newProduct["Variant Price"] > 0
+    );
+  };
+
+  const handleSubmit = async () => {
     console.log("Payload to send: ", newProduct);
-    onAddProduct(newProduct);
-    onClose();
-    // Reset form
-    setNewProduct({
-      Title: "",
-      Handle: "",
-      "Image Src": "",
-      Vendor: "",
-      Tags: "",
-      "Shop location": 0,
-      "Variant Price": 0,
-    });
-    history.push("/admin/tables");
+    const authToken = sessionStorage.getItem('authToken') || "";
+    try {
+      const AddUserResponse = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/products/`, 
+        {
+          "productData":newProduct,
+          "eventState":"CREATE"
+        }
+        ,{
+        headers: {
+          'Authorization': authToken,
+          'Content-Type': 'application/json'
+        }
+      });
+      const addedProduct = {
+        ...newProduct,
+        "_id": AddUserResponse?.data?.id
+      };
+      setNewProduct(addedProduct);
+      onAddProduct(addedProduct);
+      console.log('New Product: ', addedProduct)
+      onClose();
+      // Reset form
+      setNewProduct({
+        _id:"",
+        Title: "",
+        Handle: "",
+        "Image Src": "",
+        Vendor: "",
+        Tags: "",
+        "Variant SKU":"",
+        "Shop location": 0,
+        "Variant Price": 0,
+      });
+      history.push("/admin/tables");
+    } catch (error) {
+      console.log('Failed due to', error)
+      message.error(error?.response?.data?.message)
+    }
+    
   };
 
   return (
@@ -76,6 +118,14 @@ function AddProductModal({ isOpen, onClose, onAddProduct }) {
             <Input
               name="Handle"
               value={newProduct.Handle}
+              onChange={handleChange}
+            />
+          </FormControl>
+          <FormControl mb={3}>
+            <FormLabel>Product SKU</FormLabel>
+            <Input
+              name="Variant SKU"
+              value={newProduct["Variant SKU"]}
               onChange={handleChange}
             />
           </FormControl>
@@ -124,7 +174,11 @@ function AddProductModal({ isOpen, onClose, onAddProduct }) {
           </FormControl>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+          <Button 
+            colorScheme="blue" 
+            mr={3} 
+            onClick={handleSubmit}
+            isDisabled={!isFormComplete()}>
             Add Product
           </Button>
           <Button variant="ghost" onClick={onClose}>

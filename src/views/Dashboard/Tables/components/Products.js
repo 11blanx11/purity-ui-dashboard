@@ -167,7 +167,7 @@ const Products = ({ title, captions, data }) => {
           />
         ),
       },
-      { accessorKey: "SKU", header: "SKU", enableSorting: true },
+      { accessorKey: "Variant SKU", header: "SKU", enableSorting: true },
       { accessorKey: "Vendor", header: "Vendor", enableSorting: true },
       { accessorKey: "Tags", header: "Category", enableSorting: true },
 

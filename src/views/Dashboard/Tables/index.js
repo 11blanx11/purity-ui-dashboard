@@ -20,7 +20,7 @@ function Tables() {
 
   useEffect(() => {
     console.log(
-      `Fetching Route: ${process.env.REACT_APP_BACKEND_URL}/api/products`
+      `Fetching Route: ${process.env.REACT_APP_BACKEND_URL}/api/products/`
     );
     const fetchProducts = async () => {
       try {
