@@ -28,18 +28,32 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import AddProductModal from "components/AddProductModal/AddProductModal.js";
-import EditProductModal from "components/EditProductModal/EditProductModal";
-import DeleteProductModal from "components/DeleteProductModal/DeleteProductModal";
+import EditProductModal from "components/EditProductModal/EditProductModal.js";
+import DeleteProductModal from "components/DeleteProductModal/DeleteProductModal.js";
+import ShowProductModal from "components/ShowProductModal/ShowProductModal.js";
 
 console.log("Loading Admin Tables...");
 
-const TitleCell = ({ title, handle, image }) => {
+const TitleCell = ({ row, title, handle, image, openShow }) => {
+  const handleShow = () => {
+    openShow(row);
+  };
+
   const textColor = useColorModeValue("gray.700", "white");
+
   return (
     <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
       <Avatar src={image} w="50px" borderRadius="12px" me="18px" />
       <Flex direction="column">
-        <Text fontSize="md" color={textColor} fontWeight="bold" minWidth="100%">
+        <Text
+          fontSize="md"
+          color={textColor}
+          fontWeight="bold"
+          minWidth="100%"
+          onClick={handleShow}
+          cursor="pointer" // Added cursor pointer to indicate clickable text
+          _hover={{ textDecoration: "underline" }} // Added hover effect
+        >
           {title}
         </Text>
         <Text fontSize="sm" color="gray.400" fontWeight="normal">
@@ -104,24 +118,24 @@ const ActionCell = ({ row, onEdit, onDelete }) => {
 
   const handleDelete = () => {
     onDelete(row);
-  }
+  };
 
   return (
     <Flex gap={2}>
-      <Button 
-        size="sm" 
-        colorScheme="gray" 
+      <Button
+        size="sm"
+        colorScheme="gray"
         borderRadius="8px"
         onClick={handleEdit}
       >
         Edit
       </Button>
-      <Button 
-        size="sm" 
-        bg = "red.300"
+      <Button
+        size="sm"
+        bg="red.300"
         color="white"
         borderRadius="8px"
-        onClick={handleDelete}  
+        onClick={handleDelete}
       >
         Delete
       </Button>
@@ -169,6 +183,18 @@ const Products = ({ title, captions, data }) => {
     onClose: onDeleteModalClose,
   } = useDisclosure();
 
+  const {
+    isOpen: isShowModalOpen,
+    onOpen: onShowModalOpen,
+    onClose: onShowModalClose,
+  } = useDisclosure();
+
+  const handleShowProduct = (productData) => {
+    console.log("Showing product:", productData);
+    setSelectedProduct(productData); // Store the selected product data
+    onShowModalOpen(); // Open the edit modal
+  };
+
   const handleEditProduct = (productData) => {
     console.log("Editing product:", productData);
     setSelectedProduct(productData); // Store the selected product data
@@ -191,9 +217,11 @@ const Products = ({ title, captions, data }) => {
         header: "Product",
         cell: (info) => (
           <TitleCell
+            row={info.row.original}
             title={info.row.original.Title}
             handle={info.row.original.Handle}
             image={info.row.original["Image Src"]}
+            openShow={handleShowProduct}
           />
         ),
       },
@@ -218,7 +246,11 @@ const Products = ({ title, captions, data }) => {
         header: "Actions",
         enableSorting: false,
         cell: ({ row }) => (
-          <ActionCell row={row.original} onEdit={handleEditProduct} onDelete={handleDeleteProduct} />
+          <ActionCell
+            row={row.original}
+            onEdit={handleEditProduct}
+            onDelete={handleDeleteProduct}
+          />
         ),
       },
     ],
@@ -242,9 +274,7 @@ const Products = ({ title, captions, data }) => {
   const deleteProductinTable = useCallback((selectedProduct) => {
     console.log("Entered Callback Function with: ", selectedProduct);
     setProductData((prevData) =>
-      prevData.filter((product) =>
-        product._id !== selectedProduct._id 
-      )
+      prevData.filter((product) => product._id !== selectedProduct._id)
     );
   }, []);
 
@@ -359,6 +389,13 @@ const Products = ({ title, captions, data }) => {
         onClose={onEditModalClose}
         selectedProduct={selectedProduct}
         onEditProduct={editProductinTable}
+      />
+
+      <ShowProductModal
+        isOpen={isShowModalOpen}
+        onClose={onShowModalClose}
+        selectedProduct={selectedProduct}
+        // onEditProduct={editProductinTable}
       />
 
       <DeleteProductModal
