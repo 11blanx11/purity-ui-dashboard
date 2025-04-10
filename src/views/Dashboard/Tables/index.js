@@ -7,7 +7,7 @@ import Products from "./components/Products";
 import {
   tablesTableData,
   dashboardTableData,
-  ProductsTableData,
+  productsTableData,
 } from "variables/general";
 import axios from "axios";
 
@@ -78,7 +78,7 @@ function Tables() {
       <Products
         title={"Products Table"}
         captions={["Handle", "Vendor", "Tags", "Inventory", "Price", ""]}
-        data={productsData}
+        data={productsData || productsTableData}
       />
     </Flex>
   );

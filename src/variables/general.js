@@ -251,7 +251,7 @@ export const tablesTableData = [
   },
 ];
 
-export const ProductsTableData = [
+export const productsTableData = [
   {
     _id: "67f4e6da174f96fa6edd4575",
     Handle: "ocean-blue-shirt",
