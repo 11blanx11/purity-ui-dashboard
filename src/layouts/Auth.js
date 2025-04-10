@@ -90,7 +90,7 @@ export default function Pages(props) {
 						</Switch>
 					</Box>
 				</Box>
-				<Box px='24px' mx='auto' width='1044px' maxW='100%'>
+				<Box width="100%" maxWidth="1044px" mx="auto" px={4} py={4}>
 					<Footer />
 				</Box>
 			</Box>
